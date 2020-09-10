@@ -1,5 +1,5 @@
-PMK,Song,Artist,Genre
-1,Señorita,Shawn Mendes,canadian pop
+pmk,song,artist,genre
+1,Senorita,Shawn Mendes,canadian pop
 2,China,Anuel AA,reggaeton flow
 3,boyfriend (with Social House),Ariana Grande,dance pop
 4,Beautiful People (feat. Khalid),Ed Sheeran,pop
@@ -15,7 +15,7 @@ PMK,Song,Artist,Genre
 14,Otro Trago - Remix,Sech,panamanian pop
 15,Money In The Grave (Drake ft. Rick Ross),Drake,canadian hip hop
 16,No Guidance (feat. Drake),Chris Brown,dance pop
-17,LA CANCIÓN,J Balvin,latin
+17,LA CANCION,J Balvin,latin
 18,Sunflower - Spider-Man: Into the Spider-Verse,Post Malone,dfw rap
 19,Lalala,Y2K,canadian hip hop
 20,Truth Hurts,Lizzo,escape room
@@ -37,14 +37,14 @@ PMK,Song,Artist,Genre
 36,Otro Trago,Sech,panamanian pop
 37,Antisocial (with Travis Scott),Ed Sheeran,pop
 38,Sucker,Jonas Brothers,boy band
-39,"fuck, i'm lonely (with Anne-Marie) - from “13 Reasons Why: Season 3”",Lauv,dance pop
+39,"fuck, i'm lonely (with Anne-Marie) - from 13 Reasons Why: Season 3",Lauv,dance pop
 40,Higher Love,Kygo,edm
 41,You Need To Calm Down,Taylor Swift,dance pop
 42,Shallow,Lady Gaga,dance pop
 43,Talk,Khalid,pop
-44,Con Altura,ROSALÍA,r&b en espanol
+44,Con Altura,ROSALIA,r&b en espanol
 45,One Thing Right,Marshmello,brostep
-46,Te Robaré,Nicky Jam,latin
+46,Te Robare,Nicky Jam,latin
 47,Happier,Marshmello,brostep
 48,Call You Mine,The Chainsmokers,edm
 49,Cross Me (feat. Chance the Rapper & PnB Rock),Ed Sheeran,pop
