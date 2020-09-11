@@ -34,14 +34,15 @@ def loadCSVtoDB():
 
         cursor.executescript("""DROP TABLE IF EXISTS "TopSpotifySongs";
                                 DROP TABLE IF EXISTS "TopArtistData";
-                                CREATE TABLE "TopSpotifySongs" (pmk INTEGER PRIMARY KEY,
-                                                                song VARCHAR(64),
-                                                                artist VARCHAR(32),
-                                                                genre VARCHAR(32));
                                 CREATE TABLE "TopArtistData" (pmk INTEGER PRIMARY KEY,
                                                                 artist VARCHAR(32),
                                                                 birthdate VARCHAR(16),
-                                                                hometown VARCHAR(64));""")
+                                                                hometown VARCHAR(64));
+                                CREATE TABLE "TopSpotifySongs" (pmk INTEGER PRIMARY KEY,
+                                                                song VARCHAR(64),
+                                                                artist VARCHAR(32),
+                                                                genre VARCHAR(32),
+                                                                FOREIGN KEY (artist) REFERENCES TopArtistData (artist));""")
         # TODO: foreign key
         # FOREIGN KEY (artist) REFERENCES TopArtistData (artist)
         # Load the data from 1st CSV into array
