@@ -2,23 +2,22 @@ import sqlite3, csv
 from sqlite3 import Error
 
 #SQL Instructions:
-def querieSQL():
+def querySQL(unknownField, tableName, knownField, knownFieldValue):
     try:
         # connect to the database
         connectSQLite = sqlite3.connect('topSpotifySongs.db')
 
         # create cursor object which will be used for queries
         cursor = connectSQLite.cursor()
-        print('Connected to SQLite')
 
-        cursor.execute("SELECT * FROM TopSpotifySongs WHERE artist = 'Ed Sheeran'")
+        # create query
+        query = "SELECT " + unknownField + " FROM " + tableName + " WHERE " + knownField + " = '" + knownFieldValue + "'"
+
+        cursor.execute(query)
         rows = cursor.fetchall()
 
         for row in rows:
-            for cell in row:
-                print(str(cell))
-
-        #connectSQLite.commit()
+            print(row[0])
 
         # close cursor object
         cursor.close()
@@ -42,10 +41,12 @@ def loadCSVtoDB():
                                                                 artist VARCHAR(32),
                                                                 birthdate VARCHAR(16),
                                                                 hometown VARCHAR(64));""")
+        # TODO: foreign key
+        # FOREIGN KEY (artist) REFERENCES TopArtistData (artist)
         # Load the data from 1st CSV into array
         with open('table-1.csv', 'r') as csvFile1:
             reader = csv.DictReader(csvFile1)
-            dbArray1 = [(cell['pmk'].rstrip(), cell['song'].rstrip(), cell['artist'].rstrip(), cell['genre'].rstrip()) for cell in reader]
+            dbArray1 = [(cell['pmk'].strip(), cell['song'].strip(), cell['artist'].strip(), cell['genre'].strip()) for cell in reader]
         # Load the data from 1st CSV into array
         with open('table-2.csv', 'r') as csvFile2:
             reader = csv.DictReader(csvFile2)
@@ -65,7 +66,7 @@ def main():
     # createSQLConnection()
 
     loadCSVtoDB()
-    querieSQL()
+    querySQL('song', 'TopSpotifySongs', 'artist', 'Ed Sheeran')
 
     #test
     userCommand = input("Enter a command: ")
