@@ -13,15 +13,18 @@ def querySQL(unknownField, tableName, knownField, knownFieldValue):
         # create query
         query = "SELECT " + unknownField + " FROM " + tableName + " WHERE " + knownField + " = '" + knownFieldValue + "'"
 
+        # execute the query and get the needed information from the database
         cursor.execute(query)
         rows = cursor.fetchall()
 
+        # go through each row of returned field
         for row in rows:
             print(row[0])
 
         # close cursor object
         cursor.close()
 
+    # if an error occurs trying to open the database, display an error message
     except Error as error:
         print('Cannot connect to database. The following error occurred: ', error)
 
@@ -29,9 +32,10 @@ def loadCSVtoDB():
     try:
         # Start DB connection
         connection = sqlite3.connect('topSpotifySongs.db')
+        # create cursor object
         cursor = connection.cursor()
-        # Prep the database by cleaning it
 
+        # Prep the database by cleaning it
         cursor.executescript("""DROP TABLE IF EXISTS "TopSpotifySongs";
                                 DROP TABLE IF EXISTS "TopArtistData";
                                 CREATE TABLE "TopArtistData" (pmk INTEGER PRIMARY KEY,
@@ -43,22 +47,28 @@ def loadCSVtoDB():
                                                                 artist VARCHAR(32),
                                                                 genre VARCHAR(32),
                                                                 FOREIGN KEY (artist) REFERENCES TopArtistData (artist));""")
-        # TODO: foreign key
-        # FOREIGN KEY (artist) REFERENCES TopArtistData (artist)
+
         # Load the data from 1st CSV into array
         with open('table-1.csv', 'r') as csvFile1:
             reader = csv.DictReader(csvFile1)
             dbArray1 = [(cell['pmk'].strip(), cell['song'].strip(), cell['artist'].strip(), cell['genre'].strip()) for cell in reader]
-        # Load the data from 1st CSV into array
+
+        # Load the data from 2nd CSV into array
         with open('table-2.csv', 'r') as csvFile2:
             reader = csv.DictReader(csvFile2)
             dbArray2 = [(cell['pmk'].rstrip(), cell['artist'].rstrip(), cell['birthdate'].rstrip(), cell['hometown'].rstrip()) for cell in reader]
+
         # Dump arrays into database
         cursor.executemany("INSERT INTO TopSpotifySongs (pmk, song, artist, genre) VALUES (?, ?, ?, ?);", dbArray1)
         cursor.executemany("INSERT INTO TopArtistData (pmk, artist, birthdate, hometown) VALUES (?, ?, ?, ?);", dbArray2)
+
+        # commit databases
         connection.commit()
+
         # Close DB connection
         connection.close()
+
+    # if error occurs, print error message
     except Error as error:
         print('Cannot connect to database. The following error occurred: ', error)
 
