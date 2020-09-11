@@ -32,6 +32,7 @@ def loadCSVtoDB():
         connection = sqlite3.connect('topSpotifySongs.db')
         cursor = connection.cursor()
         # Prep the database by cleaning it
+
         cursor.executescript("""DROP TABLE IF EXISTS "TopSpotifySongs";
                                 DROP TABLE IF EXISTS "TopArtistData";
                                 CREATE TABLE "TopSpotifySongs" (pmk INTEGER PRIMARY KEY,
@@ -59,6 +60,29 @@ def loadCSVtoDB():
     except Error as error:
         print('Cannot connect to database. The following error occurred: ', error)
 
+def interpretCommand(userCommand):
+    #pass
+    #Pseudocode:
+    #Extract whatever the first word is of the command, split @ first space
+    #Use switch statement to choose which command, or SQL stuff?
+
+
+    #TODO: Add thing to ignore case
+    #TODO: Split off at first space
+
+    #1. Split commands into three separate strings @each space - string1 = requested field, string2 = provided field, string3 = field info
+    #2. Check if command words are valid - see if column titles are in an array of valid options
+    #3. Based on each command, pass to database to retrieve.
+    #4. Take output result from database and return it.
+    #5. Print out that result.
+
+    #string -> request, provided, providedInfo
+    unknownField, knownField, knownFieldValue
+    if knownField == song:
+        unknownFieldValue = doSongQuery(unknownField, knownFieldValue) #Pass request string and field info
+        print(unknownFieldValue)
+
+
 
 def main():
     # establish SQLite connection
@@ -72,10 +96,5 @@ def main():
 
     interpretCommand(userCommand)
 
-def interpretCommand(userCommand):
-    pass
-    #Pseudocode:
-    #Extract whatever the first word is of the command, split @ first space
-    #Use switch statement to choose which command, or SQL stuff?
 
 main()
