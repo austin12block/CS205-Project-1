@@ -2,24 +2,23 @@ import sqlite3, csv
 from sqlite3 import Error
 
 #SQL Instructions:
-def createSQLConnection():
+def querieSQL():
     try:
         # connect to the database
         connectSQLite = sqlite3.connect('topSpotifySongs.db')
-
-        # create database table here
-        # TODO: Finish filling in table with fields
-        createTable = '''CREATE TABLE TopSpotifySongs (
-                      Artist INTEGER PRIMARY KEY);'''
 
         # create cursor object which will be used for queries
         cursor = connectSQLite.cursor()
         print('Connected to SQLite')
 
-        # commit the table
-        cursor.execute(createTable)
-        connectSQLite.commit()
-        print('Table for Spotify songs was created!')
+        cursor.execute("SELECT * FROM TopSpotifySongs WHERE artist = 'Ed Sheeran'")
+        rows = cursor.fetchall()
+
+        for row in rows:
+            for cell in row:
+                print(str(cell))
+
+        #connectSQLite.commit()
 
         # close cursor object
         cursor.close()
@@ -66,6 +65,7 @@ def main():
     # createSQLConnection()
 
     loadCSVtoDB()
+    querieSQL()
 
     #test
     userCommand = input("Enter a command: ")
