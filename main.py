@@ -5,13 +5,15 @@ from sqlite3 import Error
 def querySQL(unknownField, tableName, knownField, knownFieldValue):
     try:
         # connect to the database
-        connectSQLite = sqlite3.connect('topSpotifySongs.db')
+        connectSQLite = sqlite3.connect('SpotifyData.db')
 
         # create cursor object which will be used for queries
         cursor = connectSQLite.cursor()
 
         # create query
         query = "SELECT " + unknownField + " FROM " + tableName + " WHERE " + knownField + " = '" + knownFieldValue + "'"
+
+        # query = "SELECT song FROM songs INNER JOIN artists ON songs.artist = artists.artist WHERE artist='Ed Sheeran'"
 
         # execute the query and get the needed information from the database
         cursor.execute(query)
@@ -31,23 +33,23 @@ def querySQL(unknownField, tableName, knownField, knownFieldValue):
 def loadCSVtoDB():
     try:
         # Start DB connection
-        connection = sqlite3.connect('topSpotifySongs.db')
+        connection = sqlite3.connect('SpotifyData.db')
         # create cursor object
         cursor = connection.cursor()
 
         # Prep the database by cleaning it
-        cursor.executescript("""DROP TABLE IF EXISTS "TopSpotifySongs";
-                                DROP TABLE IF EXISTS "TopArtistData";
-                                CREATE TABLE "TopArtistData" (pmk INTEGER PRIMARY KEY,
+        cursor.executescript("""DROP TABLE IF EXISTS "songs";
+                                DROP TABLE IF EXISTS "artists";
+                                CREATE TABLE "artists" (pmk INTEGER PRIMARY KEY,
                                                                 artist VARCHAR(32),
                                                                 birthdate VARCHAR(16),
                                                                 hometown VARCHAR(64),
-                                                                FOREIGN KEY(artist) REFERENCES TopSpotifySongs(artist));
-                                CREATE TABLE "TopSpotifySongs" (pmk INTEGER PRIMARY KEY,
+                                                                FOREIGN KEY(artist) REFERENCES songs(artist));
+                                CREATE TABLE "songs" (pmk INTEGER PRIMARY KEY,
                                                                 song VARCHAR(64),
                                                                 artist VARCHAR(32),
                                                                 genre VARCHAR(32),
-                                                                FOREIGN KEY(artist) REFERENCES TopArtistData(artist));""")
+                                                                FOREIGN KEY(artist) REFERENCES artists(artist));""")
 
         # Load the data from 1st CSV into array
         with open('table-1.csv', 'r') as csvFile1:
@@ -60,8 +62,8 @@ def loadCSVtoDB():
             dbArray2 = [(cell['pmk'].rstrip(), cell['artist'].rstrip(), cell['birthdate'].rstrip(), cell['hometown'].rstrip()) for cell in reader]
 
         # Dump arrays into database
-        cursor.executemany("INSERT INTO TopSpotifySongs (pmk, song, artist, genre) VALUES (?, ?, ?, ?);", dbArray1)
-        cursor.executemany("INSERT INTO TopArtistData (pmk, artist, birthdate, hometown) VALUES (?, ?, ?, ?);", dbArray2)
+        cursor.executemany("INSERT INTO songs (pmk, song, artist, genre) VALUES (?, ?, ?, ?);", dbArray1)
+        cursor.executemany("INSERT INTO artists (pmk, artist, birthdate, hometown) VALUES (?, ?, ?, ?);", dbArray2)
 
         # commit databases
         connection.commit()
@@ -134,7 +136,7 @@ def main():
     # createSQLConnection()
 
     loadCSVtoDB()
-    querySQL('song', 'TopSpotifySongs', 'artist', 'Ed Sheeran')
+    querySQL('song', 'songs', 'artist', 'Ed Sheeran')
 
     #test
     while (1==1): #temporary inf. loop for testing
