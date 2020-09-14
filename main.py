@@ -2,7 +2,7 @@ import sqlite3, csv
 from sqlite3 import Error
 
 #SQL Instructions:
-def querySQL(unknownField, tableName, knownField, knownFieldValue):
+def querySQL(unknownField, knownField, knownFieldValue):
     try:
         # connect to the database
         connectSQLite = sqlite3.connect('SpotifyData.db')
@@ -10,10 +10,25 @@ def querySQL(unknownField, tableName, knownField, knownFieldValue):
         # create cursor object which will be used for queries
         cursor = connectSQLite.cursor()
 
-        # create query
-        #query = "SELECT " + unknownField + " FROM " + tableName + " WHERE " + knownField + " = '" + knownFieldValue + "'"
+        # switch statement for knownField
+        if (knownField=="artist" or knownField=="birthdate" or knownField=="hometown"):
+            knownFieldAppended = "artists." + knownField
+        elif(knownField=="song" or knownField=="genre"):
+            knownFieldAppended = "songs." + knownField
+        else:
+            return
 
-        query = "SELECT hometown FROM songs INNER JOIN artists ON songs.artist = artists.artist WHERE artists.artist='Ed Sheeran'"
+        if (unknownField=="artist" or knownField=="birthdate" or knownField=="hometown"):
+            unknownFieldAppended = "artists." + unknownField
+        elif(unknownField=="song" or knownField=="genre"):
+            unknownFieldAppended = "songs." + unknownField
+        else:
+            return
+
+        # create query
+        query = "SELECT DISTINCT " + unknownFieldAppended + " FROM songs INNER JOIN artists ON songs.artist = artists.artist WHERE " + knownFieldAppended + "='" + knownFieldValue + "'"
+
+        print(query)
 
         # execute the query and get the needed information from the database
         cursor.execute(query)
@@ -138,10 +153,6 @@ def interpretCommand(userCommand):
 
 
 
-def helpMenu():
-    print("Welcome to the help menu, for best results, please enter your information in the formaat that you see \n")
-    print(" EXAMPLE : ' Artist , Song , Hips don't lie '")
-    print("Print the information you want to find out, followed by a category you know, and lastly put the exact infomration about the caetgory in")
 
 
 def main():
@@ -149,8 +160,10 @@ def main():
     # createSQLConnection()
 
     loadCSVtoDB()
-    querySQL('song', 'songs', 'artist', 'Ed Sheeran')
-    helpMenu()
+    # What you want, what you know, what it is
+    querySQL('song', 'genre', 'pop')
+    print("-----------")
+    querySQL('artist', 'hometown', 'Santa Barbara (CA)')
 
     #test
     while (1==1): #temporary inf. loop for testing
@@ -158,8 +171,6 @@ def main():
 
         #Print return value
         print(interpretCommand(userCommand))
-
-
 
 
 main()
