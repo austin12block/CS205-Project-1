@@ -150,8 +150,9 @@ def main():
     querySQL('song', 'songs', 'artist', 'Ed Sheeran')
     helpMenu()
 
-    #test
-    while (1==1): #temporary inf. loop for testing
+    running = True
+    while (running):
+        menuSelection = input("(1) Search Query\n(2) Exit")
         userCommand = input("Enter a command (Use commas to separate items): ")
 
         #Print return value
