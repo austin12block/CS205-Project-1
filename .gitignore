@@ -1,3 +1,13 @@
+.idea/
+.idea
+.idea/CS205-Project-1.iml
+.idea/dataSources.local.xml
+.idea/inspectionProfiles/profiles_settings.xml
+.idea/dataSources.xml
+.idea/sqldialects.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/workspace.xml
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
