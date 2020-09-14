@@ -11,9 +11,9 @@ def querySQL(unknownField, tableName, knownField, knownFieldValue):
         cursor = connectSQLite.cursor()
 
         # create query
-        query = "SELECT " + unknownField + " FROM " + tableName + " WHERE " + knownField + " = '" + knownFieldValue + "'"
+        #query = "SELECT " + unknownField + " FROM " + tableName + " WHERE " + knownField + " = '" + knownFieldValue + "'"
 
-        # query = "SELECT song FROM songs INNER JOIN artists ON songs.artist = artists.artist WHERE artist='Ed Sheeran'"
+        query = "SELECT hometown FROM songs INNER JOIN artists ON songs.artist = artists.artist WHERE artists.artist='Ed Sheeran'"
 
         # execute the query and get the needed information from the database
         cursor.execute(query)
