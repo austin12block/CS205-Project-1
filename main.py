@@ -122,7 +122,7 @@ def interpretCommand(userCommand):
     possibleCommandsList = ["song", "artist", "genre", "birthdate", "hometown"]
     if unknownField in possibleCommandsList and knownField in possibleCommandsList:
         #3. Pass params to database to retrieve and return it.
-        return querieSQL(unknownField, knownField, knownFieldValue)
+        return querySQL(unknownField, knownField, knownFieldValue)
     else:
         #3.5 otherwise invalid input
         return "Invalid input"
@@ -167,11 +167,24 @@ def main():
 
     running = True
     while (running):
-        menuSelection = input("(1) Search Query\n(2) Exit")
-        userCommand = input("Enter a command (Use commas to separate items): ")
 
-        #Print return value
-        print(interpretCommand(userCommand))
+        #Get User Input
+        menuSelection = input("(1) Search Query\n(2) Exit\n")
 
+        #Input Validation
+        while menuSelection != "1" and menuSelection != "2":
+            menuSelection = input("(1) Search Query\n(2) Exit\n")
+
+        #1 Search Query
+        if menuSelection == "1":
+            #EXAMPLE TEST INPUT: "Artist, Song, China" <- without quotes
+            userCommand = input("Enter a command (Use commas to separate items): ")
+
+            #Print return value
+            print(interpretCommand(userCommand))
+
+        #2. Exit
+        elif menuSelection == "2":
+            running = False
 
 main()
