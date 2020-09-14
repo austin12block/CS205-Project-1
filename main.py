@@ -71,13 +71,16 @@ def interpretCommand(userCommand):
     #TODO: Split off at first space
 
     #1. Split commands into three separate strings @each space - string1 = requested field, string2 = provided field, string3 = field info
-    commandList = userCommand.split(", ")
+    userCommandsList = userCommand.split(", ")
 
-    unknownField = commandList[0] #This is the item-type we are requesting
-    knownField = commandList[1]
-    knownFieldValue = commandList[2]
+    try:
+        unknownField = userCommandsList[0] #This is the item-type we are requesting
+        knownField = userCommandsList[1]
+        knownFieldValue = userCommandsList[2]
+    except:
+        return "Did not work, did you forget to use commas?"
 
-    print(commandList)
+    print(userCommandsList)
 
     #1.5 Turn all those field into lowercase
     unknownField = unknownField.lower()
@@ -86,33 +89,37 @@ def interpretCommand(userCommand):
     print(unknownField+knownField+knownFieldValue)
 
     #2. Check if command words are valid - see if column titles are in an array of valid options
-    #3. Based on each command, pass to database to retrieve.
-    #4. Take output result from database and return it.
-    #5. Print out that result.
+    possibleCommandsList = ["song", "artist", "genre", "birthdate", "hometown"]
+    if unknownField in possibleCommandsList and knownField in possibleCommandsList:
+        #3. Pass params to database to retrieve and return it.
+        return querieSQL(unknownField, knownField, knownFieldValue)
+    else:
+        #3.5 otherwise invalid input
+        return "Invalid input"
 
     #string -> request, provided, providedInfo
 
-    if knownField == "song":
-        # Pass request string and field info
-        # unknownFieldValue = doSongQuery(unknownField, knownFieldValue)
-        # print(unknownFieldValue)
-        print("song")
-    elif knownField == "artist":
-        # unknownFieldValue = doArtistQuery(unknownField, knownFieldValue)
-        # print(unknownFieldValue)
-        print("artist")
-    elif knownField == "genre":
-        # unknownFieldValue = doGenreQuery(unknownField, knownFieldValue)
-        # print(unknownFieldValue)
-        print("genre")
-    elif knownField == "birthdate":
-        # unknownFieldValue = doBirthdateQuery(unknownField, knownFieldValue)
-        # print(unknownFieldValue)
-        print("birthdate")
-    elif knownField == "hometown":
-        # unknownFieldValue = doHometownQuery(unknownField, knownFieldValue)
-        # print(unknownFieldValue)
-        print("hometown")
+    # if knownField == "song":
+    #     # Pass request string and field info
+    #     # unknownFieldValue = doSongQuery(unknownField, knownFieldValue)
+    #     # print(unknownFieldValue)
+    #     print("song")
+    # elif knownField == "artist":
+    #     # unknownFieldValue = doArtistQuery(unknownField, knownFieldValue)
+    #     # print(unknownFieldValue)
+    #     print("artist")
+    # elif knownField == "genre":
+    #     # unknownFieldValue = doGenreQuery(unknownField, knownFieldValue)
+    #     # print(unknownFieldValue)
+    #     print("genre")
+    # elif knownField == "birthdate":
+    #     # unknownFieldValue = doBirthdateQuery(unknownField, knownFieldValue)
+    #     # print(unknownFieldValue)
+    #     print("birthdate")
+    # elif knownField == "hometown":
+    #     # unknownFieldValue = doHometownQuery(unknownField, knownFieldValue)
+    #     # print(unknownFieldValue)
+    #     print("hometown")
 
 
 
@@ -127,7 +134,8 @@ def main():
     while (1==1): #temporary inf. loop for testing
         userCommand = input("Enter a command (Use commas to separate items): ")
 
-        interpretCommand(userCommand)
+        #Print return value
+        print(interpretCommand(userCommand))
 
 
 main()
