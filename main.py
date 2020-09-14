@@ -18,7 +18,7 @@ def querySQL(unknownField, knownField, knownFieldValue):
         else:
             return
 
-        if (unknownField=="artist" or knownField=="birthdate" or knownField=="hometown"):
+        if (unknownField=="artist" or unknownField=="birthdate" or unknownField=="hometown"):
             unknownFieldAppended = "artists." + unknownField
         elif(unknownField=="song" or knownField=="genre"):
             unknownFieldAppended = "songs." + unknownField
@@ -37,6 +37,11 @@ def querySQL(unknownField, knownField, knownFieldValue):
         # go through each row of returned field
         for row in rows:
             print(row[0])
+
+        if not rows:
+            return "Could not complete query for " + unknownField + " field"
+        else:
+            return query
 
         # close cursor object
         cursor.close()
@@ -164,6 +169,10 @@ def main():
     querySQL('song', 'genre', 'pop')
     print("-----------")
     querySQL('artist', 'hometown', 'Santa Barbara (CA)')
+    print("-----------")
+    querySQL('artist', 'genre', 'pop')
+    print("-----------")
+    querySQL('artist', 'song', 'Senorita')
 
     #test
     while (1==1): #temporary inf. loop for testing
