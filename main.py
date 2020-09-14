@@ -16,7 +16,7 @@ def querySQL(unknownField, knownField, knownFieldValue):
         elif(knownField=="song" or knownField=="genre"):
             knownFieldAppended = "songs." + knownField
         else:
-            return
+            return "Could not complete query for " + knownField + " field"
 
         # switch statement for unknownField
         if (unknownField=="artist" or unknownField=="birthdate" or unknownField=="hometown"):
@@ -24,7 +24,7 @@ def querySQL(unknownField, knownField, knownFieldValue):
         elif(unknownField=="song" or unknownField=="genre"):
             unknownFieldAppended = "songs." + unknownField
         else:
-            return
+            return "Could not complete query for " + unknownField + " field"
 
         # create query
         query = "SELECT DISTINCT " + unknownFieldAppended + " FROM songs INNER JOIN artists ON songs.artist = artists.artist WHERE " + knownFieldAppended + "='" + knownFieldValue + "'"
@@ -35,14 +35,20 @@ def querySQL(unknownField, knownField, knownFieldValue):
         cursor.execute(query)
         rows = cursor.fetchall()
 
+        queryString = ''
         # go through each row of returned field
         for row in rows:
             print(row[0])
+            # create return string from query
+            queryString += (row[0] + '\n')
 
-        if not rows:
+        # if the result from the query is empty, return an error message
+        if len(rows) == 0:
+            print("Could not complete query for " + unknownField + " field")
             return "Could not complete query for " + unknownField + " field"
+        # otherwise, return the result from the query
         else:
-            return query
+            return queryString
 
         # close cursor object
         cursor.close()
@@ -178,6 +184,10 @@ def main():
     querySQL('artist', 'genre', 'pop')
     print("-----------")
     querySQL('artist', 'song', 'Senorita')
+    print("-----------")
+    querySQL('genre', 'birthdate', '4-Jul-95')
+    print("-----------")
+    querySQL('genre', 'song', 'Vermont')
 
     running = True
     while (running):
