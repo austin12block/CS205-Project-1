@@ -18,9 +18,10 @@ def querySQL(unknownField, knownField, knownFieldValue):
         else:
             return
 
+        # switch statement for unknownField
         if (unknownField=="artist" or unknownField=="birthdate" or unknownField=="hometown"):
             unknownFieldAppended = "artists." + unknownField
-        elif(unknownField=="song" or knownField=="genre"):
+        elif(unknownField=="song" or unknownField=="genre"):
             unknownFieldAppended = "songs." + unknownField
         else:
             return
@@ -28,7 +29,7 @@ def querySQL(unknownField, knownField, knownFieldValue):
         # create query
         query = "SELECT DISTINCT " + unknownFieldAppended + " FROM songs INNER JOIN artists ON songs.artist = artists.artist WHERE " + knownFieldAppended + "='" + knownFieldValue + "'"
 
-        print(query)
+        print("QUERY: " + query)
 
         # execute the query and get the needed information from the database
         cursor.execute(query)
@@ -127,7 +128,7 @@ def interpretCommand(userCommand):
     possibleCommandsList = ["song", "artist", "genre", "birthdate", "hometown"]
     if unknownField in possibleCommandsList and knownField in possibleCommandsList:
         #3. Pass params to database to retrieve and return it.
-        return querieSQL(unknownField, knownField, knownFieldValue)
+        return querySQL(unknownField, knownField, knownFieldValue)
     else:
         #3.5 otherwise invalid input
         return "Invalid input"
@@ -166,20 +167,38 @@ def main():
 
     loadCSVtoDB()
     # What you want, what you know, what it is
-    querySQL('song', 'genre', 'pop')
-    print("-----------")
     querySQL('artist', 'hometown', 'Santa Barbara (CA)')
+    print("-----------")
+    querySQL('genre', 'hometown', 'Santa Barbara (CA)')
+    print("-----------")
+    querySQL('song', 'hometown', 'Santa Barbara (CA)')
+    print("-----------")
+    querySQL('birthdate', 'hometown', 'Santa Barbara (CA)')
     print("-----------")
     querySQL('artist', 'genre', 'pop')
     print("-----------")
     querySQL('artist', 'song', 'Senorita')
 
-    #test
-    while (1==1): #temporary inf. loop for testing
-        userCommand = input("Enter a command (Use commas to separate items): ")
+    running = True
+    while (running):
 
-        #Print return value
-        print(interpretCommand(userCommand))
+        #Get User Input
+        menuSelection = input("(1) Search Query\n(2) Exit\n")
 
+        #Input Validation
+        while menuSelection != "1" and menuSelection != "2":
+            menuSelection = input("(1) Search Query\n(2) Exit\n")
+
+        #1 Search Query
+        if menuSelection == "1":
+            #EXAMPLE TEST INPUT: "Artist, Song, China" <- without quotes
+            userCommand = input("Enter a command (Use commas to separate items): ")
+
+            #Print return value
+            print(interpretCommand(userCommand))
+
+        #2. Exit
+        elif menuSelection == "2":
+            running = False
 
 main()
