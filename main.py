@@ -81,10 +81,6 @@ def interpretCommand(userCommand):
     #Extract whatever the first word is of the command, split @ first space
     #Use switch statement to choose which command, or SQL stuff?
 
-
-    #TODO: Add thing to ignore case
-    #TODO: Split off at first space
-
     #1. Split commands into three separate strings @each space - string1 = requested field, string2 = provided field, string3 = field info
     userCommandsList = userCommand.split(", ")
 
@@ -95,19 +91,21 @@ def interpretCommand(userCommand):
     except:
         return "Did not work, did you forget to use commas?"
 
-    print(userCommandsList)
+    #DEBUG: print(userCommandsList)
 
     #1.5 Turn all those field into lowercase
     unknownField = unknownField.lower()
     knownField = knownField.lower()
     knownFieldValue = knownFieldValue.lower()
+
+    #DEBUG:
     print(unknownField+knownField+knownFieldValue)
 
     #2. Check if command words are valid - see if column titles are in an array of valid options
     possibleCommandsList = ["song", "artist", "genre", "birthdate", "hometown"]
     if unknownField in possibleCommandsList and knownField in possibleCommandsList:
         #3. Pass params to database to retrieve and return it.
-        return querieSQL(unknownField, knownField, knownFieldValue)
+        return querySQL(unknownField, knownField, knownFieldValue)
     else:
         #3.5 otherwise invalid input
         return "Invalid input"
