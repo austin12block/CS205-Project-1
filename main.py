@@ -2,7 +2,7 @@ import sqlite3, csv
 from sqlite3 import Error
 
 #SQL Instructions:
-def querySQL(unknownField, tableName, knownField, knownFieldValue):
+def querySQL(unknownField, knownField, knownFieldValue):
     try:
         # connect to the database
         connectSQLite = sqlite3.connect('SpotifyData.db')
@@ -10,10 +10,25 @@ def querySQL(unknownField, tableName, knownField, knownFieldValue):
         # create cursor object which will be used for queries
         cursor = connectSQLite.cursor()
 
-        # create query
-        #query = "SELECT " + unknownField + " FROM " + tableName + " WHERE " + knownField + " = '" + knownFieldValue + "'"
+        # switch statement for knownField
+        if (knownField=="artist" or knownField=="birthdate" or knownField=="hometown"):
+            knownFieldAppended = "artists." + knownField
+        elif(knownField=="song" or knownField=="genre"):
+            knownFieldAppended = "songs." + knownField
+        else:
+            return
 
-        query = "SELECT hometown FROM songs INNER JOIN artists ON songs.artist = artists.artist WHERE artists.artist='Ed Sheeran'"
+        if (unknownField=="artist" or knownField=="birthdate" or knownField=="hometown"):
+            unknownFieldAppended = "artists." + unknownField
+        elif(unknownField=="song" or knownField=="genre"):
+            unknownFieldAppended = "songs." + unknownField
+        else:
+            return
+
+        # create query
+        query = "SELECT DISTINCT " + unknownFieldAppended + " FROM songs INNER JOIN artists ON songs.artist = artists.artist WHERE " + knownFieldAppended + "='" + knownFieldValue + "'"
+
+        print(query)
 
         # execute the query and get the needed information from the database
         cursor.execute(query)
@@ -81,6 +96,10 @@ def interpretCommand(userCommand):
     #Extract whatever the first word is of the command, split @ first space
     #Use switch statement to choose which command, or SQL stuff?
 
+
+    #TODO: Add thing to ignore case
+    #TODO: Split off at first space
+
     #1. Split commands into three separate strings @each space - string1 = requested field, string2 = provided field, string3 = field info
     userCommandsList = userCommand.split(", ")
 
@@ -91,21 +110,19 @@ def interpretCommand(userCommand):
     except:
         return "Did not work, did you forget to use commas?"
 
-    #DEBUG: print(userCommandsList)
+    print(userCommandsList)
 
     #1.5 Turn all those field into lowercase
     unknownField = unknownField.lower()
     knownField = knownField.lower()
     knownFieldValue = knownFieldValue.lower()
-
-    #DEBUG:
     print(unknownField+knownField+knownFieldValue)
 
     #2. Check if command words are valid - see if column titles are in an array of valid options
     possibleCommandsList = ["song", "artist", "genre", "birthdate", "hometown"]
     if unknownField in possibleCommandsList and knownField in possibleCommandsList:
         #3. Pass params to database to retrieve and return it.
-        return querySQL(unknownField, knownField, knownFieldValue)
+        return querieSQL(unknownField, knownField, knownFieldValue)
     else:
         #3.5 otherwise invalid input
         return "Invalid input"
@@ -136,10 +153,6 @@ def interpretCommand(userCommand):
 
 
 
-def helpMenu():
-    print("Welcome to the help menu, for best results, please enter your information in the formaat that you see \n")
-    print(" EXAMPLE : ' Artist , Song , Hips don't lie '")
-    print("Print the information you want to find out, followed by a category you know, and lastly put the exact infomration about the caetgory in")
 
 
 def main():
@@ -147,8 +160,10 @@ def main():
     # createSQLConnection()
 
     loadCSVtoDB()
-    querySQL('song', 'songs', 'artist', 'Ed Sheeran')
-    helpMenu()
+    # What you want, what you know, what it is
+    querySQL('song', 'genre', 'pop')
+    print("-----------")
+    querySQL('artist', 'hometown', 'Santa Barbara (CA)')
 
     running = True
     while (running):
@@ -157,8 +172,6 @@ def main():
 
         #Print return value
         print(interpretCommand(userCommand))
-
-
 
 
 main()
