@@ -2,61 +2,76 @@ import sqlite3, csv
 from sqlite3 import Error
 
 #SQL Instructions:
-def querieSQL():
+def querySQL(unknownField, tableName, knownField, knownFieldValue):
     try:
         # connect to the database
-        connectSQLite = sqlite3.connect('topSpotifySongs.db')
+        connectSQLite = sqlite3.connect('SpotifyData.db')
 
         # create cursor object which will be used for queries
         cursor = connectSQLite.cursor()
-        print('Connected to SQLite')
 
-        cursor.execute("SELECT * FROM TopSpotifySongs WHERE artist = 'Ed Sheeran'")
+        # create query
+        #query = "SELECT " + unknownField + " FROM " + tableName + " WHERE " + knownField + " = '" + knownFieldValue + "'"
+
+        query = "SELECT hometown FROM songs INNER JOIN artists ON songs.artist = artists.artist WHERE artists.artist='Ed Sheeran'"
+
+        # execute the query and get the needed information from the database
+        cursor.execute(query)
         rows = cursor.fetchall()
 
+        # go through each row of returned field
         for row in rows:
-            for cell in row:
-                print(str(cell))
-
-        #connectSQLite.commit()
+            print(row[0])
 
         # close cursor object
         cursor.close()
 
+    # if an error occurs trying to open the database, display an error message
     except Error as error:
         print('Cannot connect to database. The following error occurred: ', error)
 
 def loadCSVtoDB():
     try:
         # Start DB connection
-        connection = sqlite3.connect('topSpotifySongs.db')
+        connection = sqlite3.connect('SpotifyData.db')
+        # create cursor object
         cursor = connection.cursor()
-        # Prep the database by cleaning it
 
-        cursor.executescript("""DROP TABLE IF EXISTS "TopSpotifySongs";
-                                DROP TABLE IF EXISTS "TopArtistData";
-                                CREATE TABLE "TopSpotifySongs" (pmk INTEGER PRIMARY KEY,
-                                                                song VARCHAR(64),
-                                                                artist VARCHAR(32),
-                                                                genre VARCHAR(32));
-                                CREATE TABLE "TopArtistData" (pmk INTEGER PRIMARY KEY,
+        # Prep the database by cleaning it
+        cursor.executescript("""DROP TABLE IF EXISTS "songs";
+                                DROP TABLE IF EXISTS "artists";
+                                CREATE TABLE "artists" (pmk INTEGER PRIMARY KEY,
                                                                 artist VARCHAR(32),
                                                                 birthdate VARCHAR(16),
-                                                                hometown VARCHAR(64));""")
+                                                                hometown VARCHAR(64),
+                                                                FOREIGN KEY(artist) REFERENCES songs(artist));
+                                CREATE TABLE "songs" (pmk INTEGER PRIMARY KEY,
+                                                                song VARCHAR(64),
+                                                                artist VARCHAR(32),
+                                                                genre VARCHAR(32),
+                                                                FOREIGN KEY(artist) REFERENCES artists(artist));""")
+
         # Load the data from 1st CSV into array
         with open('table-1.csv', 'r') as csvFile1:
             reader = csv.DictReader(csvFile1)
-            dbArray1 = [(cell['pmk'].rstrip(), cell['song'].rstrip(), cell['artist'].rstrip(), cell['genre'].rstrip()) for cell in reader]
-        # Load the data from 1st CSV into array
+            dbArray1 = [(cell['pmk'].strip(), cell['song'].strip(), cell['artist'].strip(), cell['genre'].strip()) for cell in reader]
+
+        # Load the data from 2nd CSV into array
         with open('table-2.csv', 'r') as csvFile2:
             reader = csv.DictReader(csvFile2)
             dbArray2 = [(cell['pmk'].rstrip(), cell['artist'].rstrip(), cell['birthdate'].rstrip(), cell['hometown'].rstrip()) for cell in reader]
+
         # Dump arrays into database
-        cursor.executemany("INSERT INTO TopSpotifySongs (pmk, song, artist, genre) VALUES (?, ?, ?, ?);", dbArray1)
-        cursor.executemany("INSERT INTO TopArtistData (pmk, artist, birthdate, hometown) VALUES (?, ?, ?, ?);", dbArray2)
+        cursor.executemany("INSERT INTO songs (pmk, song, artist, genre) VALUES (?, ?, ?, ?);", dbArray1)
+        cursor.executemany("INSERT INTO artists (pmk, artist, birthdate, hometown) VALUES (?, ?, ?, ?);", dbArray2)
+
+        # commit databases
         connection.commit()
+
         # Close DB connection
         connection.close()
+
+    # if error occurs, print error message
     except Error as error:
         print('Cannot connect to database. The following error occurred: ', error)
 
@@ -128,7 +143,7 @@ def main():
     # createSQLConnection()
 
     loadCSVtoDB()
-    querieSQL()
+    querySQL('song', 'songs', 'artist', 'Ed Sheeran')
 
     #test
     while (1==1): #temporary inf. loop for testing
