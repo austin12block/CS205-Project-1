@@ -138,6 +138,10 @@ def interpretCommand(userCommand):
 
 
 
+def helpMenu():
+    print("Welcome to the help menu, for best results, please enter your information in the formaat that you see \n")
+    print(" EXAMPLE : ' Artist , Song , Hips don't lie '")
+    print("Print the information you want to find out, followed by a category you know, and lastly put the exact infomration about the caetgory in")
 
 
 def main():
@@ -146,6 +150,7 @@ def main():
 
     loadCSVtoDB()
     querySQL('song', 'songs', 'artist', 'Ed Sheeran')
+    helpMenu()
 
     #test
     while (1==1): #temporary inf. loop for testing
@@ -153,6 +158,8 @@ def main():
 
         #Print return value
         print(interpretCommand(userCommand))
+
+
 
 
 main()
