@@ -18,6 +18,7 @@ def querySQL(unknownField, knownField, knownFieldValue):
         else:
             return
 
+        # switch statement for unknownField
         if (unknownField=="artist" or unknownField=="birthdate" or unknownField=="hometown"):
             unknownFieldAppended = "artists." + unknownField
         elif(unknownField=="song" or unknownField=="genre"):
