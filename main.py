@@ -18,8 +18,17 @@ def querySQL(unknownField, knownField, knownFieldValue):
         else:
             return
 
+        if (unknownField=="artist" or knownField=="birthdate" or knownField=="hometown"):
+            unknownFieldAppended = "artists." + unknownField
+        elif(unknownField=="song" or knownField=="genre"):
+            unknownFieldAppended = "songs." + unknownField
+        else:
+            return
+
         # create query
         query = "SELECT DISTINCT " + unknownField + " FROM songs INNER JOIN artists ON songs.artist = artists.artist WHERE " + knownFieldAppended + "='" + knownFieldValue + "'"
+
+        print(query)
 
         # execute the query and get the needed information from the database
         cursor.execute(query)
