@@ -26,7 +26,7 @@ def querySQL(unknownField, knownField, knownFieldValue):
             return
 
         # create query
-        query = "SELECT DISTINCT " + unknownField + " FROM songs INNER JOIN artists ON songs.artist = artists.artist WHERE " + knownFieldAppended + "='" + knownFieldValue + "'"
+        query = "SELECT DISTINCT " + unknownFieldAppended + " FROM songs INNER JOIN artists ON songs.artist = artists.artist WHERE " + knownFieldAppended + "='" + knownFieldValue + "'"
 
         print(query)
 
