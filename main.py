@@ -27,7 +27,7 @@ def querySQL(unknownField, knownField, knownFieldValue):
             return "Could not complete query for " + unknownField + " field"
 
         # create query
-        query = "SELECT DISTINCT " + unknownFieldAppended + " FROM songs INNER JOIN artists ON songs.artist = artists.artist WHERE " + knownFieldAppended + "='" + knownFieldValue + "'"
+        query = "SELECT DISTINCT " + unknownFieldAppended + " FROM songs INNER JOIN artists ON songs.artist = artists.artist WHERE " + knownFieldAppended + "='" + knownFieldValue + "' COLLATE NOCASE"
 
         print("QUERY: " + query)
 
@@ -173,21 +173,21 @@ def main():
 
     loadCSVtoDB()
     # What you want, what you know, what it is
-    querySQL('artist', 'hometown', 'Santa Barbara (CA)')
+    querySQL('artist', 'hometown', 'saNta Barbara (CA)')
     print("-----------")
-    querySQL('genre', 'hometown', 'Santa Barbara (CA)')
+    querySQL('genre', 'hometown', 'sanTa Barbara (CA)')
     print("-----------")
-    querySQL('song', 'hometown', 'Santa Barbara (CA)')
+    querySQL('song', 'hometown', 'santA Barbara (CA)')
     print("-----------")
-    querySQL('birthdate', 'hometown', 'Santa Barbara (CA)')
+    querySQL('birthdate', 'hometown', 'santa Barbara (CA)')
     print("-----------")
-    querySQL('artist', 'genre', 'pop')
+    querySQL('artist', 'genre', 'POP')
     print("-----------")
-    querySQL('artist', 'song', 'Senorita')
+    querySQL('artist', 'song', 'senorita')
     print("-----------")
-    querySQL('genre', 'birthdate', '4-Jul-95')
+    querySQL('genre', 'birthdate', '4-juL-95')
     print("-----------")
-    querySQL('genre', 'song', 'Vermont')
+    querySQL('genre', 'song', 'vermOnt')
 
     running = True
     while (running):
