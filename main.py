@@ -56,6 +56,7 @@ def querySQL(unknownField, knownField, knownFieldValue):
     # if an error occurs trying to open the database, display an error message
     except Error as error:
         print('Cannot connect to database. The following error occurred: ', error)
+        print('Please select the "Load Data" option to load data into the database, so you can complete your query.')
 
 
 def loadCSVtoDB():
@@ -95,6 +96,9 @@ def loadCSVtoDB():
 
         # commit databases
         connection.commit()
+
+        # display message indicating that the data was loaded into the database
+        print("The data has been loaded into the database")
 
         # Close DB connection
         connection.close()
@@ -214,5 +218,6 @@ def main():
 
         elif menuSelection == "3":
             loadCSVtoDB()
+
 
 main()
