@@ -10,18 +10,18 @@ def querySQL(unknownField, knownField, knownFieldValue):
         # create cursor object which will be used for queries
         cursor = connectSQLite.cursor()
 
-        # switch statement for knownField
-        if (knownField=="artist" or knownField=="birthdate" or knownField=="hometown"):
+        # switch statement for knownField to help create query statement
+        if knownField == "artist" or knownField == "birthdate" or knownField == "hometown":
             knownFieldAppended = "artists." + knownField
-        elif(knownField=="song" or knownField=="genre"):
+        elif knownField == "song" or knownField == "genre":
             knownFieldAppended = "songs." + knownField
         else:
             return "Could not complete query for " + knownField + " field"
 
-        # switch statement for unknownField
-        if (unknownField=="artist" or unknownField=="birthdate" or unknownField=="hometown"):
+        # switch statement for unknownField ti help create query statement
+        if unknownField == "artist" or unknownField == "birthdate" or unknownField == "hometown":
             unknownFieldAppended = "artists." + unknownField
-        elif(unknownField=="song" or unknownField=="genre"):
+        elif unknownField == "song" or unknownField == "genre":
             unknownFieldAppended = "songs." + unknownField
         else:
             return "Could not complete query for " + unknownField + " field"
@@ -36,26 +36,27 @@ def querySQL(unknownField, knownField, knownFieldValue):
         rows = cursor.fetchall()
 
         queryString = ''
-        # go through each row of returned field
+        # go through each row of returned field to get the unknown values
         for row in rows:
-            print(row[0])
+            # print(row[0])
             # create return string from query
             queryString += (row[0] + '\n')
 
+        # close cursor object
+        cursor.close()
+
         # if the result from the query is empty, return an error message
         if len(rows) == 0:
-            print("Could not complete query for " + unknownField + " field")
+            # print("Could not complete query for " + unknownField + " field")
             return "Could not complete query for " + unknownField + " field"
         # otherwise, return the result from the query
         else:
             return queryString
 
-        # close cursor object
-        cursor.close()
-
     # if an error occurs trying to open the database, display an error message
     except Error as error:
         print('Cannot connect to database. The following error occurred: ', error)
+
 
 def loadCSVtoDB():
     try:
@@ -102,6 +103,7 @@ def loadCSVtoDB():
     except Error as error:
         print('Cannot connect to database. The following error occurred: ', error)
 
+
 def interpretCommand(userCommand):
     #pass
     #Pseudocode:
@@ -124,16 +126,16 @@ def interpretCommand(userCommand):
 
     print(userCommandsList)
 
-    #1.5 Turn all those field into lowercase
+    # 1.5 Turn all those field into lowercase
     unknownField = unknownField.lower()
     knownField = knownField.lower()
     knownFieldValue = knownFieldValue.lower()
-    print(unknownField+knownField+knownFieldValue)
+    print(unknownField + " " + knownField + " " + knownFieldValue)
 
-    #2. Check if command words are valid - see if column titles are in an array of valid options
+    # 2. Check if command words are valid - see if column titles are in an array of valid options
     possibleCommandsList = ["song", "artist", "genre", "birthdate", "hometown"]
     if unknownField in possibleCommandsList and knownField in possibleCommandsList:
-        #3. Pass params to database to retrieve and return it.
+        # 3. Pass params to database to retrieve and return it.
         return querySQL(unknownField, knownField, knownFieldValue)
     else:
         #3.5 otherwise invalid input
@@ -164,40 +166,39 @@ def interpretCommand(userCommand):
     #     print("hometown")
 
 
-
-
-
 def main():
     # establish SQLite connection
     # createSQLConnection()
 
-    loadCSVtoDB()
-    # What you want, what you know, what it is
-    querySQL('artist', 'hometown', 'saNta Barbara (CA)')
-    print("-----------")
-    querySQL('genre', 'hometown', 'sanTa Barbara (CA)')
-    print("-----------")
-    querySQL('song', 'hometown', 'santA Barbara (CA)')
-    print("-----------")
-    querySQL('birthdate', 'hometown', 'santa Barbara (CA)')
-    print("-----------")
-    querySQL('artist', 'genre', 'POP')
-    print("-----------")
-    querySQL('artist', 'song', 'senorita')
-    print("-----------")
-    querySQL('genre', 'birthdate', '4-juL-95')
-    print("-----------")
-    querySQL('genre', 'song', 'vermOnt')
+    # loadCSVtoDB()
+    # # What you want, what you know, what it is
+    # # test cases --- delete later
+    # querySQL('artist', 'hometown', 'saNta Barbara (CA)')
+    # print("-----------")
+    # querySQL('genre', 'hometown', 'sanTa Barbara (CA)')
+    # print("-----------")
+    # querySQL('song', 'hometown', 'santA Barbara (CA)')
+    # print("-----------")
+    # querySQL('birthdate', 'hometown', 'santa Barbara (CA)')
+    # print("-----------")
+    # querySQL('artist', 'genre', 'POP')
+    # print("-----------")
+    # querySQL('artist', 'song', 'senorita')
+    # print("-----------")
+    # querySQL('genre', 'birthdate', '4-juL-95')
+    # print("-----------")
+    # querySQL('genre', 'song', 'vermOnt')
+    # end of test cases
 
     running = True
     while (running):
 
         #Get User Input
-        menuSelection = input("(1) Search Query\n(2) Exit\n")
+        menuSelection = input("(1) Search Query\n(2) Exit\n(3) Load Data\n")
 
         #Input Validation
-        while menuSelection != "1" and menuSelection != "2":
-            menuSelection = input("(1) Search Query\n(2) Exit\n")
+        while menuSelection != "1" and menuSelection != "2" and menuSelection != "3":
+            menuSelection = input("(1) Search Query\n(2) Exit\n(3) Load Data\n")
 
         #1 Search Query
         if menuSelection == "1":
@@ -210,5 +211,8 @@ def main():
         #2. Exit
         elif menuSelection == "2":
             running = False
+
+        elif menuSelection == "3":
+            loadCSVtoDB()
 
 main()
