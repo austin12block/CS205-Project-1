@@ -1,7 +1,7 @@
 import sqlite3, csv
 from sqlite3 import Error
 
-#SQL Instructions:
+# SQL Instructions:
 def querySQL(unknownField, knownField, knownFieldValue):
     try:
         # connect to the database
@@ -109,7 +109,6 @@ def loadCSVtoDB():
 
 
 def interpretCommand(userCommand):
-    #pass
     #Pseudocode:
     #Extract whatever the first word is of the command, split @ first space
     #Use switch statement to choose which command, or SQL stuff?
@@ -118,11 +117,11 @@ def interpretCommand(userCommand):
     #TODO: Add thing to ignore case
     #TODO: Split off at first space
 
-    #1. Split commands into three separate strings @each space - string1 = requested field, string2 = provided field, string3 = field info
+    # 1. Split commands into three separate strings @each space - string1 = requested field, string2 = provided field, string3 = field info
     userCommandsList = userCommand.split(", ")
 
     try:
-        unknownField = userCommandsList[0] #This is the item-type we are requesting
+        unknownField = userCommandsList[0] # This is the item-type we are requesting
         knownField = userCommandsList[1]
         knownFieldValue = userCommandsList[2]
     except:
@@ -142,10 +141,10 @@ def interpretCommand(userCommand):
         # 3. Pass params to database to retrieve and return it.
         return querySQL(unknownField, knownField, knownFieldValue)
     else:
-        #3.5 otherwise invalid input
+        # 3.5 otherwise invalid input
         return "Invalid input"
 
-    #string -> request, provided, providedInfo
+    # string -> request, provided, providedInfo
 
     # if knownField == "song":
     #     # Pass request string and field info
@@ -197,25 +196,26 @@ def main():
     running = True
     while (running):
 
-        #Get User Input
+        # Get User Input
         menuSelection = input("(1) Search Query\n(2) Exit\n(3) Load Data\n")
 
-        #Input Validation
+        # Input Validation
         while menuSelection != "1" and menuSelection != "2" and menuSelection != "3":
             menuSelection = input("(1) Search Query\n(2) Exit\n(3) Load Data\n")
 
-        #1 Search Query
+        # 1. Search Query
         if menuSelection == "1":
-            #EXAMPLE TEST INPUT: "Artist, Song, China" <- without quotes
+            # EXAMPLE TEST INPUT: "Artist, Song, China" <- without quotes
             userCommand = input("Enter a command (Use commas to separate items): ")
 
-            #Print return value
+            # Print return value
             print(interpretCommand(userCommand))
 
-        #2. Exit
+        # 2. Exit
         elif menuSelection == "2":
             running = False
 
+        # 3 Load Data
         elif menuSelection == "3":
             loadCSVtoDB()
 
