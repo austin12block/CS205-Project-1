@@ -200,7 +200,8 @@ def main():
         menuSelection = input("(1) Search Query\n(2) Exit\n(3) Load Data\n")
 
         # Input Validation
-        while menuSelection != "1" and menuSelection != "2" and menuSelection != "3":
+        # while menuSelection != "1" and menuSelection != "2" and menuSelection != "3":
+        while menuSelection != "1" and menuSelection.lower() != "exit" and menuSelection.lower() != "load data":
             menuSelection = input("(1) Search Query\n(2) Exit\n(3) Load Data\n")
 
         # 1. Search Query
@@ -212,11 +213,12 @@ def main():
             print(interpretCommand(userCommand))
 
         # 2. Exit
-        elif menuSelection == "2":
+        # elif menuSelection == "2":
+        elif menuSelection.lower() == "exit":
             running = False
 
-        # 3 Load Data
-        elif menuSelection == "3":
+        # Load Data
+        elif menuSelection.lower() == "load data":
             loadCSVtoDB()
 
 
