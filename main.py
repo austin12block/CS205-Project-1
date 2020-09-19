@@ -220,35 +220,26 @@ def testCases():
 
 def main():
 
-    testCases()
+    # TODO: Finish help function
+    # TODO: Print "how to start" message if data not already loaded
+    # TODO: Add comments and clean code
+    
+
+    #testCases()
 
     running = True
     while (running):
 
         # Get User Input
-        menuSelection = input("(1) Search Query\n(2) Exit\n(3) Load Data\n")
+        menuSelection = input("> ")
 
-        # Input Validation
-        # while menuSelection != "1" and menuSelection != "2" and menuSelection != "3":
-        while menuSelection != "1" and menuSelection.lower() != "exit" and menuSelection.lower() != "load data":
-            menuSelection = input("(1) Search Query\n(2) Exit\n(3) Load Data\n")
-
-        # 1. Search Query
-        if menuSelection == "1":
-            # EXAMPLE TEST INPUT: "Artist, Song, China" <- without quotes
-            userCommand = input("Enter a command (Use commas to separate items): ")
-
-            # Print return value
-            print(interpretCommand(userCommand))
-
-        # 2. Exit
-        # elif menuSelection == "2":
-        elif menuSelection.lower() == "exit":
+        if menuSelection.lower() == "exit":
             running = False
-
-        # Load Data
         elif menuSelection.lower() == "load data":
             loadCSVtoDB()
-
+        elif menuSelection.lower() == "help":
+            print("Help")
+        else:
+            print(interpretCommand(menuSelection))
 
 main()
