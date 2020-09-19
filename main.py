@@ -3,6 +3,9 @@ from sqlite3 import Error
 
 # SQL Instructions:
 def querySQL(unknownField, knownField, knownFieldValue):
+    unknownField = unknownField.lower()
+    knownField = knownField.lower()
+    knownFieldValue = knownFieldValue.lower()
     try:
         # connect to the database
         connectSQLite = sqlite3.connect('SpotifyData.db')
