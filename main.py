@@ -168,30 +168,56 @@ def interpretCommand(userCommand):
     #     # print(unknownFieldValue)
     #     print("hometown")
 
+def testCases():
+    # test cases --- delete later
+    print(querySQL('artist', 'hometown', 'saNta Barbara (CA)'))
+    print("-----------")
+    print(querySQL('genre', 'hometown', 'sanTa Barbara (CA)'))
+    print("-----------")
+    print(querySQL('song', 'hometown', 'santA Barbara (CA)'))
+    print("-----------")
+    print(querySQL('birthdate', 'hometown', 'santa Barbara (CA)'))
+    print("-----------")
+
+    print(querySQL('artIst', 'genre', 'POP'))
+    print("-----------")
+    print(querySQL('sONG', 'genre', 'POP'))
+    print("-----------")
+    print(querySQL('birthDate', 'genre', 'POP'))
+    print("-----------")
+    print(querySQL('HOMETOWN', 'genre', 'POP'))
+    print("-----------")
+
+    print(querySQL('artist', 'soNg', 'senorita'))
+    print("-----------")
+    print(querySQL('genre', 'song', 'senorita'))
+    print("-----------")
+    print(querySQL('homeTOWN', 'sOng', 'senorita'))
+    print("-----------")
+    print(querySQL('birthdate', 'sonG', 'senorita'))
+    print("-----------")
+
+    print(querySQL('genre', 'birthdaTe', '27-Jul-94'))
+    print("-----------")
+    print(querySQL('song', 'birthdate', '27-Jul-94'))
+    print("-----------")
+    print(querySQL('artist', 'biRthdate', '27-Jul-94'))
+    print("-----------")
+    print(querySQL('HOMETOWN', 'BIRTHDATE', '27-Jul-94'))
+    print("-----------")
+
+    print(querySQL('genre', 'artist', 'DJ SNAKE'))
+    print("-----------")
+    print(querySQL('song', 'artist', 'dj SNAKE'))
+    print("-----------")
+    print(querySQL('HOMETOWN', 'artist', 'DJ snake'))
+    print("-----------")
+    print(querySQL('birthdate', 'artist', 'DJ Snake'))
+    print("-----------")
 
 def main():
-    # establish SQLite connection
-    # createSQLConnection()
 
-    # loadCSVtoDB()
-    # # What you want, what you know, what it is
-    # # test cases --- delete later
-    # querySQL('artist', 'hometown', 'saNta Barbara (CA)')
-    # print("-----------")
-    # querySQL('genre', 'hometown', 'sanTa Barbara (CA)')
-    # print("-----------")
-    # querySQL('song', 'hometown', 'santA Barbara (CA)')
-    # print("-----------")
-    # querySQL('birthdate', 'hometown', 'santa Barbara (CA)')
-    # print("-----------")
-    # querySQL('artist', 'genre', 'POP')
-    # print("-----------")
-    # querySQL('artist', 'song', 'senorita')
-    # print("-----------")
-    # querySQL('genre', 'birthdate', '4-juL-95')
-    # print("-----------")
-    # querySQL('genre', 'song', 'vermOnt')
-    # end of test cases
+    testCases()
 
     running = True
     while (running):
