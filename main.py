@@ -223,7 +223,7 @@ def main():
     # TODO: Finish help function
     # TODO: Print "how to start" message if data not already loaded
     # TODO: Add comments and clean code
-    
+    # TODO: I noticed sometimes it breaks when the knownFieldValue contains spaces, do some testing?
 
     #testCases()
 
