@@ -69,6 +69,14 @@ def loadCSVtoDB():
         # create cursor object
         cursor = connection.cursor()
 
+        # determine if data tables have already been created
+        databaseExists = False
+        cursor.execute('''SELECT count(name) FROM sqlite_master WHERE type='table' AND name='songs' ''')
+        
+        # if there is a table, then the data has already been loaded
+        if cursor.fetchone()[0] == 1:
+            databaseExists = True
+
         # Prep the database by cleaning it
         cursor.executescript("""DROP TABLE IF EXISTS "songs";
                                 DROP TABLE IF EXISTS "artists";
@@ -100,8 +108,13 @@ def loadCSVtoDB():
         # commit databases
         connection.commit()
 
-        # display message indicating that the data was loaded into the database
-        print("The data has been loaded into the database")
+        # display message for whether the data has already been loaded or not
+        if not databaseExists:
+            # display message indicating that the data was loaded into the database
+            print('The data has been loaded into the database. You can now enter your query')
+        else:
+            # data has already been loaded
+            print('Data has already been loaded into the database')
 
         # Close DB connection
         connection.close()
