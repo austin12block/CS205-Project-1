@@ -139,10 +139,10 @@ def interpretCommand(userCommand):
         knownField = userCommandsList[1]
         knownFieldValue = userCommandsList[2]
 
-    except:
+    except Error as error:
 
-        return "Error: Commands must be in format [Requested Info] [Known Info] [Known Info Details], " \
-               "\n(Type 'help' for an example)."
+        return ("Error: Commands must be in format [Requested Info] [Known Info] [Known Info Details], " \
+               "\n(Type 'help' for an example).\n\n Error Text:", error)
 
     # 1.5 Turn all those fields into lowercase
     unknownField = unknownField.lower()
@@ -150,17 +150,17 @@ def interpretCommand(userCommand):
     knownFieldValue = knownFieldValue.lower()
 
     # 2. Check if command words are valid - see if column titles are in an array of valid options
-    possibleCommandsList = ["song", "artist", "genre", "birthdate", "hometown"]
-    if unknownField in possibleCommandsList and knownField in possibleCommandsList:
+    # possibleCommandsList = ["song", "artist", "genre", "birthdate", "hometown"]
+    # if unknownField in possibleCommandsList and knownField in possibleCommandsList:
 
         # 3. Pass params to database to retrieve and return it.
-        return querySQL(unknownField, knownField, knownFieldValue)
+    return querySQL(unknownField, knownField, knownFieldValue)
 
-    else:
+    #else:
         # 3.5 otherwise invalid input
-        return "Error: Bad query, make sure to split the words in your command with a " \
-                   "comma and space (like this -->'song, artist, Billie Eilish') and nothing else." \
-                   "Make sure that there are no extra spaces as well!"
+        #return "Error: Bad query, make sure to split the words in your command with a " \
+         #          "comma and space (like this -->'song, artist, Billie Eilish') and nothing else." \
+         #          "Make sure that there are no extra spaces as well!\n\n Error Text:", error)
 
 def helpMenu():
     print("Welcome to our help menu!")
