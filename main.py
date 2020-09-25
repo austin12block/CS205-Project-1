@@ -1,7 +1,6 @@
 import sqlite3, csv
 from sqlite3 import Error
 
-# SQL Instructions:
 def querySQL(unknownField, knownField, knownFieldValue):
     unknownField = unknownField.lower()
     knownField = knownField.lower()
@@ -9,8 +8,6 @@ def querySQL(unknownField, knownField, knownFieldValue):
     try:
         # connect to the database
         connectSQLite = sqlite3.connect('SpotifyData.db')
-
-        # create cursor object which will be used for queries
         cursor = connectSQLite.cursor()
 
         # switch statement for knownField to help create query statement
@@ -21,7 +18,7 @@ def querySQL(unknownField, knownField, knownFieldValue):
         else:
             return "Could not complete query for " + knownField + " field"
 
-        # switch statement for unknownField ti help create query statement
+        # switch statement for unknownField to help create query statement
         if unknownField == "artist" or unknownField == "birthdate" or unknownField == "hometown":
             unknownFieldAppended = "artists." + unknownField
         elif unknownField == "song" or unknownField == "genre":
@@ -31,8 +28,6 @@ def querySQL(unknownField, knownField, knownFieldValue):
 
         # create query
         query = "SELECT DISTINCT " + unknownFieldAppended + " FROM songs INNER JOIN artists ON songs.artist = artists.artist WHERE " + knownFieldAppended + "='" + knownFieldValue + "' COLLATE NOCASE"
-
-        print("QUERY: " + query)
 
         # execute the query and get the needed information from the database
         cursor.execute(query)
