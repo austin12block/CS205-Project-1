@@ -125,9 +125,6 @@ def interpretCommand(userCommand):
     # Extract whatever the first word is of the command, split @ first space
     # Use switch statement to choose which command, or SQL stuff?
 
-    # TODO: Add thing to ignore case
-    # TODO: Split off at first space
-
     # 1. Split commands into three separate strings @each space - string1 = requested field,
     # string2 = provided field, string3 = field info
     userCommandsList = userCommand.split(", ")
