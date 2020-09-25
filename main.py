@@ -1,6 +1,7 @@
 import sqlite3, csv
 from sqlite3 import Error
 
+# SQL Instructions:
 def querySQL(unknownField, knownField, knownFieldValue):
     unknownField = unknownField.lower()
     knownField = knownField.lower()
@@ -8,6 +9,8 @@ def querySQL(unknownField, knownField, knownFieldValue):
     try:
         # connect to the database
         connectSQLite = sqlite3.connect('SpotifyData.db')
+
+        # create cursor object which will be used for queries
         cursor = connectSQLite.cursor()
 
         # switch statement for knownField to help create query statement
@@ -120,120 +123,83 @@ def loadCSVtoDB():
 
 
 def interpretCommand(userCommand):
-    #Pseudocode:
-    #Extract whatever the first word is of the command, split @ first space
-    #Use switch statement to choose which command, or SQL stuff?
+    # Extract whatever the first word is of the command, split @ first space
+    # Use switch statement to choose which command, or SQL stuff?
 
+    # TODO: Add thing to ignore case
+    # TODO: Split off at first space
 
-    #TODO: Add thing to ignore case
-    #TODO: Split off at first space
-
-    # 1. Split commands into three separate strings @each space - string1 = requested field, string2 = provided field, string3 = field info
+    # 1. Split commands into three separate strings @each space - string1 = requested field,
+    # string2 = provided field, string3 = field info
     userCommandsList = userCommand.split(", ")
 
     try:
-        unknownField = userCommandsList[0] # This is the item-type we are requesting
+
+        # This is the item-type we are requesting
+        unknownField = userCommandsList[0]
         knownField = userCommandsList[1]
         knownFieldValue = userCommandsList[2]
     except:
-        return "Did not work, did you forget to use commas?"
+        return "Error: Commands must be in format [Requested Info] [Known Info] [Known Info Details], " \
+               "\nEXAMPLE: Entering 'song, hometown, toronto (canada)' will return all songs in the database " \
+               "created by people from Toronto, Canada."
 
-    print(userCommandsList)
+    # DEBUG: print(userCommandsList)
 
-    # 1.5 Turn all those field into lowercase
+    # 1.5 Turn all those fields into lowercase
     unknownField = unknownField.lower()
     knownField = knownField.lower()
     knownFieldValue = knownFieldValue.lower()
-    print(unknownField + " " + knownField + " " + knownFieldValue)
+
+    # DEBUG: print(unknownField + " " + knownField + " " + knownFieldValue)
 
     # 2. Check if command words are valid - see if column titles are in an array of valid options
     possibleCommandsList = ["song", "artist", "genre", "birthdate", "hometown"]
     if unknownField in possibleCommandsList and knownField in possibleCommandsList:
-        # 3. Pass params to database to retrieve and return it.
-        return querySQL(unknownField, knownField, knownFieldValue)
+
+        try:
+            # 3. Pass params to database to retrieve and return it.
+            return querySQL(unknownField, knownField, knownFieldValue)
+
+        except:
+            # If it doesn't work, print an error
+            return "Error: Bad query, make sure to split the words in your command with a " \
+                   "comma and space (like this -->'song, artist, Billie Eilish') and nothing else." \
+                   "Make sure that there are no extra spaces as well!"
+
     else:
         # 3.5 otherwise invalid input
         return "Invalid input"
 
-    # string -> request, provided, providedInfo
-
-    # if knownField == "song":
-    #     # Pass request string and field info
-    #     # unknownFieldValue = doSongQuery(unknownField, knownFieldValue)
-    #     # print(unknownFieldValue)
-    #     print("song")
-    # elif knownField == "artist":
-    #     # unknownFieldValue = doArtistQuery(unknownField, knownFieldValue)
-    #     # print(unknownFieldValue)
-    #     print("artist")
-    # elif knownField == "genre":
-    #     # unknownFieldValue = doGenreQuery(unknownField, knownFieldValue)
-    #     # print(unknownFieldValue)
-    #     print("genre")
-    # elif knownField == "birthdate":
-    #     # unknownFieldValue = doBirthdateQuery(unknownField, knownFieldValue)
-    #     # print(unknownFieldValue)
-    #     print("birthdate")
-    # elif knownField == "hometown":
-    #     # unknownFieldValue = doHometownQuery(unknownField, knownFieldValue)
-    #     # print(unknownFieldValue)
-    #     print("hometown")
-
-def testCases():
-    # test cases --- delete later
-    print(querySQL('artist', 'hometown', 'saNta Barbara (CA)'))
-    print("-----------")
-    print(querySQL('genre', 'hometown', 'sanTa Barbara (CA)'))
-    print("-----------")
-    print(querySQL('song', 'hometown', 'santA Barbara (CA)'))
-    print("-----------")
-    print(querySQL('birthdate', 'hometown', 'santa Barbara (CA)'))
-    print("-----------")
-
-    print(querySQL('artIst', 'genre', 'POP'))
-    print("-----------")
-    print(querySQL('sONG', 'genre', 'POP'))
-    print("-----------")
-    print(querySQL('birthDate', 'genre', 'POP'))
-    print("-----------")
-    print(querySQL('HOMETOWN', 'genre', 'POP'))
-    print("-----------")
-
-    print(querySQL('artist', 'soNg', 'senorita'))
-    print("-----------")
-    print(querySQL('genre', 'song', 'senorita'))
-    print("-----------")
-    print(querySQL('homeTOWN', 'sOng', 'senorita'))
-    print("-----------")
-    print(querySQL('birthdate', 'sonG', 'senorita'))
-    print("-----------")
-
-    print(querySQL('genre', 'birthdaTe', '27-Jul-94'))
-    print("-----------")
-    print(querySQL('song', 'birthdate', '27-Jul-94'))
-    print("-----------")
-    print(querySQL('artist', 'biRthdate', '27-Jul-94'))
-    print("-----------")
-    print(querySQL('HOMETOWN', 'BIRTHDATE', '27-Jul-94'))
-    print("-----------")
-
-    print(querySQL('genre', 'artist', 'DJ SNAKE'))
-    print("-----------")
-    print(querySQL('song', 'artist', 'dj SNAKE'))
-    print("-----------")
-    print(querySQL('HOMETOWN', 'artist', 'DJ snake'))
-    print("-----------")
-    print(querySQL('birthdate', 'artist', 'DJ Snake'))
-    print("-----------")
+def helpMenu():
+    print("Welcome to our help menu!")
+    print("This system is straight forward, but follows a specific format")
+    print("")
+    print("Our Catagories are | Artist | Genre | Song | Hometown | Birthdate")
+    print("")
+    #unkown field, known field, known field value ---- artist, title, hips dont lie
+    print("To get information from our database:")
+    print("- Please seperate by commas")
+    print("- DO NOT put information in quotes")
+    print("- FIRST value is the information you want to retrieve")
+    print("- SECOND value is the Category of information that you know")
+    print("- THIRD value is the specific information of the provided catgeory (EX: the artsts real name)")
+    print("-------------------------------------------------------------------------------------------")
+    print("Here is a working example: ")
+    print("Song, Artist, Ed Sheeran")
+    print("")
+    print("If you are looking for an artists' hometown, here is another example:")
+    print("")
+    print("Arist , Hometown, London (UK) ")
 
 def main():
 
     # TODO: Finish help function
     # TODO: Print "how to start" message if data not already loaded
     # TODO: Add comments and clean code
-    # TODO: I noticed sometimes it breaks when the knownFieldValue contains spaces, do some testing?
 
-    #testCases()
+    # Intro Text
+    print("Type 'help' for a list of commands.")
 
     running = True
     while (running):
