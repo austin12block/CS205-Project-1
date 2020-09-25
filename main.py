@@ -142,8 +142,7 @@ def interpretCommand(userCommand):
     except:
 
         return "Error: Commands must be in format [Requested Info] [Known Info] [Known Info Details], " \
-               "\nEXAMPLE: Entering 'song, hometown, toronto (canada)' will return all songs in the database " \
-               "created by people from Toronto, Canada."
+               "\n(Type 'help' for an example)."
 
     # 1.5 Turn all those fields into lowercase
     unknownField = unknownField.lower()
