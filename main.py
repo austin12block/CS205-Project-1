@@ -45,7 +45,6 @@ def querySQL(unknownField, knownField, knownFieldValue):
 
         # if the result from the query is empty, return an error message
         if len(rows) == 0:
-            # print("Could not complete query for " + unknownField + " field")
             return "Could not complete query for " + unknownField + " field"
         # otherwise, return the result from the query
         else:
@@ -55,7 +54,6 @@ def querySQL(unknownField, knownField, knownFieldValue):
     except Error as error:
         print('Cannot connect to database. The following error occurred: ', error)
         print('Please select the "Load Data" option to load data into the database, so you can complete your query.')
-
 
 def loadCSVtoDB():
     try:
@@ -118,7 +116,6 @@ def loadCSVtoDB():
     except Error as error:
         print('Cannot connect to database. The following error occurred: ', error)
 
-
 def interpretCommand(userCommand):
     #Pseudocode:
     #Extract whatever the first word is of the command, split @ first space
@@ -178,20 +175,10 @@ def helpMenu():
 
 
 def main():
-
-    # TODO: Finish help function
-    # TODO: Print "how to start" message if data not already loaded
-    # TODO: Add comments and clean code
-    # TODO: I noticed sometimes it breaks when the knownFieldValue contains spaces, do some testing?
-
-    #testCases()
-
     running = True
     while (running):
-
         # Get User Input
         menuSelection = input("> ")
-
         if menuSelection.lower() == "exit":
             running = False
         elif menuSelection.lower() == "load data":
