@@ -39,7 +39,6 @@ def querySQL(unknownField, knownField, knownFieldValue):
         queryString = ''
         # go through each row of returned field to get the unknown values
         for row in rows:
-            # print(row[0])
             # create return string from query
             queryString += (row[0] + '\n')
 
@@ -48,8 +47,7 @@ def querySQL(unknownField, knownField, knownFieldValue):
 
         # if the result from the query is empty, return an error message
         if len(rows) == 0:
-            # print("Could not complete query for " + unknownField + " field")
-            return "Could not complete query for " + unknownField + " field"
+            return "No Results Found"
         # otherwise, return the result from the query
         else:
             return queryString
@@ -70,7 +68,7 @@ def loadCSVtoDB():
         # determine if data tables have already been created
         databaseExists = False
         cursor.execute('''SELECT count(name) FROM sqlite_master WHERE type='table' AND name='songs' ''')
-        
+
         # if there is a table, then the data has already been loaded
         if cursor.fetchone()[0] == 1:
             databaseExists = True
