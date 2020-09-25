@@ -121,7 +121,6 @@ def loadCSVtoDB():
     except Error as error:
         print('Cannot connect to database. The following error occurred: ', error)
 
-
 def interpretCommand(userCommand):
     # Extract whatever the first word is of the command, split @ first space
     # Use switch statement to choose which command, or SQL stuff?
