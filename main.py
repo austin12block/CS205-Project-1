@@ -140,7 +140,9 @@ def interpretCommand(userCommand):
         knownField = userCommandsList[1]
         knownFieldValue = userCommandsList[2]
     except:
-        return "Did not work, did you forget to use commas?"
+        return "Error: Commands must be in format [Requested Info] [Known Info] [Known Info Details], " \
+               "\nEXAMPLE: Entering 'song, hometown, toronto (canada)' will return all songs in the database " \
+               "created by people from Toronto, Canada."
 
     print(userCommandsList)
 
@@ -166,6 +168,9 @@ def main():
     # TODO: Add comments and clean code
 
     #testCases()
+
+    # Intro Text
+    print("Type 'help' for a list of commands.")
 
     running = True
     while (running):
