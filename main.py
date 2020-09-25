@@ -231,29 +231,6 @@ def testCases():
     print(querySQL('birthdate', 'artist', 'DJ Snake'))
     print("-----------")
 
-def helpMenu():
-    print("Welcome to our help menu!")
-    print("This system is straight forward, but follows a specific format")
-    print("")
-    print("Our Catagories are | Artist | Genre | Song | Hometown | Birthdate")
-    print("")
-    #unkown field, known field, known field value ---- artist, title, hips dont lie
-    print("To get information from our database:")
-    print("- Please seperate by commas")
-    print("- DO NOT put information in quotes")
-    print("- FIRST value is the information you want to retrieve")
-    print("- SECOND value is the Category of information that you know")
-    print("- THIRD value is the specific information of the provided catgeory (EX: the artsts real name)")
-    print("-------------------------------------------------------------------------------------------")
-    print("Here is a working example: ")
-    print("Song, Artist, Ed Sheeran")
-    print("")
-    print("If you are looking for an artists' hometown, here is another example:")
-    print("")
-    print("Arist , Hometown, London (UK) ")
-
-
-
 def main():
 
     # TODO: Finish help function
@@ -274,7 +251,7 @@ def main():
         elif menuSelection.lower() == "load data":
             loadCSVtoDB()
         elif menuSelection.lower() == "help":
-            helpMenu()
+            print("Help")
         else:
             print(interpretCommand(menuSelection))
 
