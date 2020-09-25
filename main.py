@@ -43,9 +43,10 @@ def querySQL(unknownField, knownField, knownFieldValue):
         # close cursor object
         cursor.close()
 
-        # if the result from the query is empty, return no results
+        # if the result from the query is empty, return an error message
         if len(rows) == 0:
-            return "No results found for " + unknownField + " where " + knownField + " is " + knownFieldValue
+            # print("Could not complete query for " + unknownField + " field")
+            return "Could not complete query for " + unknownField + " field"
         # otherwise, return the result from the query
         else:
             return queryString
@@ -135,9 +136,7 @@ def interpretCommand(userCommand):
         knownField = userCommandsList[1]
         knownFieldValue = userCommandsList[2]
     except:
-        return "Error: Commands must be in format [Requested Info] [Known Info] [Known Info Details], " \
-               "\nEXAMPLE: Entering 'song, hometown, toronto (canada)' will return all songs in the database " \
-               "created by people from Toronto, Canada."
+        return "Did not work, did you forget to use commas?"
 
     print(userCommandsList)
 
@@ -156,16 +155,85 @@ def interpretCommand(userCommand):
         # 3.5 otherwise invalid input
         return "Invalid input"
 
+    # string -> request, provided, providedInfo
+
+    # if knownField == "song":
+    #     # Pass request string and field info
+    #     # unknownFieldValue = doSongQuery(unknownField, knownFieldValue)
+    #     # print(unknownFieldValue)
+    #     print("song")
+    # elif knownField == "artist":
+    #     # unknownFieldValue = doArtistQuery(unknownField, knownFieldValue)
+    #     # print(unknownFieldValue)
+    #     print("artist")
+    # elif knownField == "genre":
+    #     # unknownFieldValue = doGenreQuery(unknownField, knownFieldValue)
+    #     # print(unknownFieldValue)
+    #     print("genre")
+    # elif knownField == "birthdate":
+    #     # unknownFieldValue = doBirthdateQuery(unknownField, knownFieldValue)
+    #     # print(unknownFieldValue)
+    #     print("birthdate")
+    # elif knownField == "hometown":
+    #     # unknownFieldValue = doHometownQuery(unknownField, knownFieldValue)
+    #     # print(unknownFieldValue)
+    #     print("hometown")
+
+def testCases():
+    # test cases --- delete later
+    print(querySQL('artist', 'hometown', 'saNta Barbara (CA)'))
+    print("-----------")
+    print(querySQL('genre', 'hometown', 'sanTa Barbara (CA)'))
+    print("-----------")
+    print(querySQL('song', 'hometown', 'santA Barbara (CA)'))
+    print("-----------")
+    print(querySQL('birthdate', 'hometown', 'santa Barbara (CA)'))
+    print("-----------")
+
+    print(querySQL('artIst', 'genre', 'POP'))
+    print("-----------")
+    print(querySQL('sONG', 'genre', 'POP'))
+    print("-----------")
+    print(querySQL('birthDate', 'genre', 'POP'))
+    print("-----------")
+    print(querySQL('HOMETOWN', 'genre', 'POP'))
+    print("-----------")
+
+    print(querySQL('artist', 'soNg', 'senorita'))
+    print("-----------")
+    print(querySQL('genre', 'song', 'senorita'))
+    print("-----------")
+    print(querySQL('homeTOWN', 'sOng', 'senorita'))
+    print("-----------")
+    print(querySQL('birthdate', 'sonG', 'senorita'))
+    print("-----------")
+
+    print(querySQL('genre', 'birthdaTe', '27-Jul-94'))
+    print("-----------")
+    print(querySQL('song', 'birthdate', '27-Jul-94'))
+    print("-----------")
+    print(querySQL('artist', 'biRthdate', '27-Jul-94'))
+    print("-----------")
+    print(querySQL('HOMETOWN', 'BIRTHDATE', '27-Jul-94'))
+    print("-----------")
+
+    print(querySQL('genre', 'artist', 'DJ SNAKE'))
+    print("-----------")
+    print(querySQL('song', 'artist', 'dj SNAKE'))
+    print("-----------")
+    print(querySQL('HOMETOWN', 'artist', 'DJ snake'))
+    print("-----------")
+    print(querySQL('birthdate', 'artist', 'DJ Snake'))
+    print("-----------")
+
 def main():
 
     # TODO: Finish help function
     # TODO: Print "how to start" message if data not already loaded
     # TODO: Add comments and clean code
+    # TODO: I noticed sometimes it breaks when the knownFieldValue contains spaces, do some testing?
 
     #testCases()
-
-    # Intro Text
-    print("Type 'help' for a list of commands.")
 
     running = True
     while (running):
