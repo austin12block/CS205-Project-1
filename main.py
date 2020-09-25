@@ -139,37 +139,30 @@ def interpretCommand(userCommand):
         unknownField = userCommandsList[0]
         knownField = userCommandsList[1]
         knownFieldValue = userCommandsList[2]
+
     except:
+
         return "Error: Commands must be in format [Requested Info] [Known Info] [Known Info Details], " \
                "\nEXAMPLE: Entering 'song, hometown, toronto (canada)' will return all songs in the database " \
                "created by people from Toronto, Canada."
-
-    # DEBUG: print(userCommandsList)
 
     # 1.5 Turn all those fields into lowercase
     unknownField = unknownField.lower()
     knownField = knownField.lower()
     knownFieldValue = knownFieldValue.lower()
 
-    # DEBUG: print(unknownField + " " + knownField + " " + knownFieldValue)
-
     # 2. Check if command words are valid - see if column titles are in an array of valid options
     possibleCommandsList = ["song", "artist", "genre", "birthdate", "hometown"]
     if unknownField in possibleCommandsList and knownField in possibleCommandsList:
 
-        try:
-            # 3. Pass params to database to retrieve and return it.
-            return querySQL(unknownField, knownField, knownFieldValue)
-
-        except:
-            # If it doesn't work, print an error
-            return "Error: Bad query, make sure to split the words in your command with a " \
-                   "comma and space (like this -->'song, artist, Billie Eilish') and nothing else." \
-                   "Make sure that there are no extra spaces as well!"
+        # 3. Pass params to database to retrieve and return it.
+        return querySQL(unknownField, knownField, knownFieldValue)
 
     else:
         # 3.5 otherwise invalid input
-        return "Invalid input"
+        return "Error: Bad query, make sure to split the words in your command with a " \
+                   "comma and space (like this -->'song, artist, Billie Eilish') and nothing else." \
+                   "Make sure that there are no extra spaces as well!"
 
 def helpMenu():
     print("Welcome to our help menu!")
@@ -177,7 +170,6 @@ def helpMenu():
     print("")
     print("Our Catagories are | Artist | Genre | Song | Hometown | Birthdate")
     print("")
-    #unkown field, known field, known field value ---- artist, title, hips dont lie
     print("To get information from our database:")
     print("- Please seperate by commas")
     print("- DO NOT put information in quotes")
