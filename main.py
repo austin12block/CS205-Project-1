@@ -212,7 +212,7 @@ def main():
         elif menuSelection.lower() == "load data":
             loadCSVtoDB()
         elif menuSelection.lower() == "help":
-            print("Help")
+            helpMenu()
         else:
             print(interpretCommand(menuSelection))
 
