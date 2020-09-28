@@ -57,7 +57,6 @@ def querySQL(unknownField, knownField, knownFieldValue):
         print('Cannot connect to database. The following error occurred: ', error)
         print('Please select the "Load Data" option to load data into the database, so you can complete your query.')
 
-
 def loadCSVtoDB():
     try:
         # Start DB connection
@@ -128,14 +127,11 @@ def interpretCommand(userCommand):
     userCommandsList = userCommand.split(", ")
 
     try:
-
         # This is the item-type we are requesting
         unknownField = userCommandsList[0]
         knownField = userCommandsList[1]
         knownFieldValue = userCommandsList[2]
-
     except:
-
         return ("Error: Commands must be in format [Requested Info] [Known Info] [Known Info Details], " \
                "\n(Type 'help' for an example).")
 
@@ -168,11 +164,6 @@ def helpMenu():
     print("Arist , Hometown, London (UK) ")
 
 def main():
-
-    # TODO: Finish help function
-    # TODO: Print "how to start" message if data not already loaded
-    # TODO: Add comments and clean code
-
     # Intro Text
     print("Type 'help' for a list of commands.")
 
