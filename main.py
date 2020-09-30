@@ -132,7 +132,7 @@ def interpretCommand(userCommand):
         knownField = userCommandsList[1]
         knownFieldValue = userCommandsList[2]
     except:
-        return ("Error: Commands must be in format [Requested Info] [Known Info] [Known Info Details], " \
+        return ("Error: Commands must be in format [Requested Info], [Known Info], [Known Info Details], " \
                "\n(Type 'help' for an example).")
 
     # 1.5 Turn all those fields into lowercase
@@ -147,21 +147,21 @@ def helpMenu():
     print("Welcome to our help menu!")
     print("This system is straight forward, but follows a specific format")
     print("")
-    print("Our Catagories are | Artist | Genre | Song | Hometown | Birthdate")
+    print("Our Categories are | Artist | Genre | Song | Hometown | Birthdate")
     print("")
     print("To get information from our database:")
-    print("- Please seperate by commas")
+    print("- Please separate by commas. There must be only one space after each comma")
     print("- DO NOT put information in quotes")
     print("- FIRST value is the information you want to retrieve")
     print("- SECOND value is the Category of information that you know")
-    print("- THIRD value is the specific information of the provided catgeory (EX: the artsts real name)")
+    print("- THIRD value is the specific information of the provided category (EX: the artist's real name)")
     print("-------------------------------------------------------------------------------------------")
     print("Here is a working example: ")
     print("Song, Artist, Ed Sheeran")
     print("")
-    print("If you are looking for an artists' hometown, here is another example:")
+    print("If you are looking for an artist's hometown, here is another example:")
     print("")
-    print("Arist , Hometown, London (UK) ")
+    print("Artist, Hometown, London (UK) ")
 
 def main():
     # Intro Text
@@ -173,6 +173,7 @@ def main():
         # Get User Input
         menuSelection = input("> ")
 
+        # determine what command the user has entered
         if menuSelection.lower() == "exit":
             running = False
         elif menuSelection.lower() == "load data":
