@@ -147,6 +147,9 @@ def helpMenu():
     print("Welcome to our help menu!")
     print("This system is straight forward, but follows a specific format")
     print("")
+    print("To create the database, enter load data")
+    print("To end the program, enter exit")
+    print("")
     print("Our Categories are | Artist | Genre | Song | Hometown | Birthdate")
     print("")
     print("To get information from our database:")
@@ -161,7 +164,7 @@ def helpMenu():
     print("")
     print("If you are looking for an artist's hometown, here is another example:")
     print("")
-    print("Artist, Hometown, London (UK) ")
+    print("Artist, Hometown, London (UK)")
 
 def main():
     # Intro Text
